@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Article</title>
+
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <link rel="stylesheet" href="https://i.icomoon.io/public/temp/88ddbaddb9/UntitledProject/style.css">
+    <style>
+        .article {
+            font-family: Arial, Helvetica, sans-serif;
+            max-width: 350px;
+        }
+        .stats .stats-item{
+            display: inline-block;
+            cursor: pointer;
+        }
+        .stats .stats-item{
+            margin-right: 15px;
+        }
+        .stats .icon {
+            margin-right: 5px;
+        }
+        .stats .likes .icon{
+            color: #E73075;
+        }
+        .stats .comments .icon{
+            color: #909090;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const Article = React.createClass({
+            render() {
+                const {
+                    title,
+                    author,
+                    text,
+                    comments,
+                    likes
+                } = this.props;
+
+                return (
+                    <div className="article">
+                        <h2>{title}</h2>
+                        <span>by <strong>{author}</strong></span>
+                        <p>{text}</p>
+                        <div className="stats">
+                            <div className="stats-item likes">
+                                <i className="icon icon-heart" />
+                                {likes || null}
+                            </div>
+                            <div className="stats-item comments">
+                                <i className="icon icon-chat_bubble" />
+                                {comments || null}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+        });
+
+        ReactDOM.render(
+            <Article
+                title="Article title"
+                text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis corrupti molestias dicta omnis, illo quaerat voluptatibus. Repellat labore, cupiditate! Quia dicta iste inventore placeat, est impedit repudiandae error officiis voluptas!"
+                author="John Snow"
+                likes={121}
+                comments={34}
+            />,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+</html>

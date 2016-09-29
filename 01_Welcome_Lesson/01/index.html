@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Article</title>
+
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+
+    <style>
+        .article{
+            max-width: 400px;
+            font-family: 'arial, helvetica, sans-serif';
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script>
+        const Article = React.createClass({
+            render() {
+                return (
+                    React.createElement('div', { className: "article"},
+                        React.createElement('h2', {}, this.props.title),
+                        React.createElement('span', {}, "by ",
+                            React.createElement('strong', {}, this.props.author)
+                        ),
+                        React.createElement('p', {}, this.props.text)
+                    )
+                );
+            }
+        });
+
+        ReactDOM.render(
+            React.createElement(Article, { title: "Article title", author: "John Snow", text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." }),
+            document.getElementById('root')
+        );
+    </script>
+</body>
+</html>
