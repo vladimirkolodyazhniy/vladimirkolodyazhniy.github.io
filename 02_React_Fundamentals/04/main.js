@@ -133,7 +133,7 @@ const NotesGrid = React.createClass({
 const NotesColors = React.createClass({
     getInitialState() {
         return {
-            activeColor: ''
+            activeColor: this.props.activeColor
         };
     },
 
