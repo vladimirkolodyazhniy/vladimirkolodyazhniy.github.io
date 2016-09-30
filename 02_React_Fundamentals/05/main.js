@@ -44,14 +44,7 @@ const Article = React.createClass({
 });
 
 const Markdown = React.createClass({
-
-    content() {
-        if (this.props.sourceText) {
-            return <div dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.props.sourceText) }} />;
-        }
-    },
-
-    renderMarkdown(source) {
+    getRenderedMarkdown(source) {
         if (!this.md) {
             this.md = new Remarkable('full');
         }
@@ -61,9 +54,7 @@ const Markdown = React.createClass({
 
     render() {
         return (
-            <div>
-                {this.content()}
-            </div>
+            <div dangerouslySetInnerHTML={{ __html: this.props.sourceText ? this.getRenderedMarkdown(this.props.sourceText) : null }} />
         );
     }
 });
