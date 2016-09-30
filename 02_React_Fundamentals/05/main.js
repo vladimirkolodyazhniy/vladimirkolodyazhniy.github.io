@@ -112,7 +112,6 @@ const ArticleEditor = React.createClass({
             title,
             text
         } = this.state;
-        console.log(title, text);
 
         return (
             <div className="editor__holder">
