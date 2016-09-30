@@ -29,12 +29,40 @@ const Article = React.createClass({
                 <span className="article__delete-icon" onClick={this.handleDelete}> × </span>
 
                 <div
-                    dangerouslySetInnerHTML={{ __html: title }}
-                    onClick={this.handleCollapse}
                     className={collapsed ? "article__title collapsed" : "article__title" }
-                />
+                    onClick={this.handleCollapse}
+                >
+                    <Markdown sourceText={title}/>
+                </div>
 
-                <div className={collapsed ? "content collapsed" : "content" } dangerouslySetInnerHTML={{ __html: text }} />
+                <div className={collapsed ? "content collapsed" : "content" }>
+                    <Markdown sourceText={text}/>
+                </div>
+            </div>
+        );
+    }
+});
+
+const Markdown = React.createClass({
+
+    content() {
+        if (this.props.sourceText) {
+            return <div dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.props.sourceText) }} />;
+        }
+    },
+
+    renderMarkdown(source) {
+        if (!this.md) {
+            this.md = new Remarkable('full');
+        }
+
+        return this.md.render(source);
+    },
+
+    render() {
+        return (
+            <div>
+                {this.content()}
             </div>
         );
     }
@@ -44,30 +72,26 @@ const ArticleEditor = React.createClass({
     getInitialState() {
         return {
             title: '',
-            compiledTitle: '',
-            text: '',
-            compiledText: ''
+            text: ''
         };
     },
 
     handleTextChange(event) {
         this.setState({
-            text: event.target.value,
-            compiledText: this.md.render(event.target.value)
+            text: event.target.value
         });
     },
 
     handleTitleChange(event) {
         this.setState({
-            title: event.target.value,
-            compiledTitle: this.md.render(event.target.value)
+            title: event.target.value
         });
     },
 
     handleArticleAdd() {
         const newArticle = {
-            title: this.state.compiledTitle,
-            text: this.state.compiledText,
+            title: this.state.title,
+            text: this.state.text,
             id: Date.now()
         };
 
@@ -79,25 +103,16 @@ const ArticleEditor = React.createClass({
     resetState() {
         this.setState({
             title: '',
-            compiledTitle: '',
-            text: '',
-            compiledText: ''
+            text: ''
         });
-    },
-
-    componentDidMount() {
-        const textarea = this.textarea;
-
-        this.md = new Remarkable('full');
     },
 
     render() {
         const {
             title,
-            compiledTitle,
-            compiledText,
             text
         } = this.state;
+        console.log(title, text);
 
         return (
             <div className="editor__holder">
@@ -116,7 +131,6 @@ const ArticleEditor = React.createClass({
                         className="editor__textarea"
                         value={text}
                         onChange={this.handleTextChange}
-                        ref={c => this.textarea = c}
                     />
 
                     <div className="editor__footer">
@@ -125,16 +139,18 @@ const ArticleEditor = React.createClass({
                 </div>
 
                 <div className="preview">
-                    <div dangerouslySetInnerHTML={{ __html: compiledTitle }} />
+                    <div className="content-holder">
+                        <Markdown sourceText={title}/>
 
-                    <div dangerouslySetInnerHTML={{ __html: compiledText }} />
+                        <Markdown sourceText={text}/>
+                    </div>
                 </div>
             </div>
         );
     }
 });
 
-const ArticlesGrid = React.createClass({
+const ArticlesList = React.createClass({
     render() {
         const {
             articles,
@@ -142,15 +158,15 @@ const ArticlesGrid = React.createClass({
         } = this.props;
 
         return (
-            <div className="grid">
+            <div className="list">
                 {
                     articles.map(article =>
                         <Article
                             key={article.id}
                             id={article.id}
-                            onDelete={onArticleDelete}
                             title={article.title}
                             text={article.text}
+                            onDelete={onArticleDelete}
                         />
                     )
                 }
@@ -200,7 +216,7 @@ const BlogApp = React.createClass({
 
                 <ArticleEditor onArticleAdd={this.handleArticleAdd} />
 
-                <ArticlesGrid
+                <ArticlesList
                     articles={this.state.articles}
                     onArticleDelete={this.handleArticleDelete}
                 />

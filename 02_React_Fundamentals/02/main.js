@@ -1,5 +1,5 @@
-const SCALE_FACTOR_MAX = 8,
-      SCALE_FACTOR_STEP = 0.8;
+const SCALE_FACTOR_MAX = 8;
+const SCALE_FACTOR_STEP = 0.8;
 
 const Clicker = React.createClass({
     getInitialState() {
@@ -16,21 +16,21 @@ const Clicker = React.createClass({
         this.state.scaleFactor > SCALE_FACTOR_MAX ? this.setState({ scaleFactor: 1 }) : this.state.scaleFactor;
     },
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         this.resetScaleFactor();
     },
 
     render() {
         const { scaleFactor } = this.state;
 
-        const flexContainer = {
+        const containerStyle  = {
             display: 'flex',
             alignItems: 'center',
             height: '100vh',
             overflow: 'hidden'
         };
 
-        const flexItem = {
+        const itemStyle = {
             backgroundColor: '#000',
             width: '100px',
             height: '100px',
@@ -42,14 +42,14 @@ const Clicker = React.createClass({
         };
 
         return (
-            <div style={ flexContainer }>
-                <span style={ flexItem } onClick={ this.handleClick }/>
+            <div style={ containerStyle }>
+                <span style={ itemStyle } onClick={ this.handleClick } />
             </div>
         );
     }
 });
 
 ReactDOM.render(
-    <Clicker/>,
+    <Clicker />,
     document.getElementById('root')
 );

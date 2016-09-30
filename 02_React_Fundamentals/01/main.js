@@ -1,4 +1,4 @@
-const Card = React.createClass({
+const CardFlipper = React.createClass({
     getInitialState() {
         return {
             flipped: false
@@ -12,15 +12,20 @@ const Card = React.createClass({
     render() {
         const { flipped } = this.state;
 
+        const {
+            frontImgSrc,
+            backImgSrc,
+        } = this.props;
+
         return (
-            <div className="flex-holder">
-                <div className={flipped ? "flipped flip-container" : "flip-container"} onClick={this.handleClick}>
+            <div className="flex__holder">
+                <div className={flipped ? "flipped flip__container" : "flip__container"} onClick={this.handleClick}>
                     <div className="flipper">
                         <div className="front">
-                            <img src="https://facebook.github.io/react/img/logo.svg" alt="logo"/>
+                            <img className="flipper__img" src={frontImgSrc} alt="logo"/>
                         </div>
                         <div className="back">
-                            <img src="http://3.bp.blogspot.com/-FWllqU6BXKg/VVnbUyqoBcI/AAAAAAAAN8Q/rVidBpUF9RY/s1600/reactjs.png" alt="title"/>
+                            <img className="flipper__img" src={backImgSrc} alt="title"/>
                         </div>
                     </div>
                 </div>
@@ -30,6 +35,9 @@ const Card = React.createClass({
 });
 
 ReactDOM.render(
-    <Card />,
+    <CardFlipper
+        frontImgSrc='https://facebook.github.io/react/img/logo.svg'
+        backImgSrc='http://3.bp.blogspot.com/-FWllqU6BXKg/VVnbUyqoBcI/AAAAAAAAN8Q/rVidBpUF9RY/s1600/reactjs.png'
+    />,
     document.getElementById('root')
 );

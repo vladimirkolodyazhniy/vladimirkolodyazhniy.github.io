@@ -75,9 +75,9 @@ const NoteEditor = React.createClass({
                 />
 
                 <div className="editor__footer">
-                    <NotesColors
+                    <ColorPicker
+                        selectedColor={color}
                         onColorChange={this.handleColorChange}
-                        activeColor={color}
                     />
 
                     <button className="editor__button" onClick={this.handleNoteAdd}>Add</button>
@@ -130,29 +130,13 @@ const NotesGrid = React.createClass({
     }
 });
 
-const NotesColors = React.createClass({
-    getInitialState() {
-        return {
-            activeColor: this.props.activeColor
-        };
-    },
-
+const ColorPicker = React.createClass({
     handleClick(color) {
-        this.setState({
-            activeColor: color
-        });
-
         this.props.onColorChange(color);
     },
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            activeColor: nextProps.activeColor
-        });
-    },
-
     render() {
-        const { activeColor } = this.state;
+        const { selectedColor } = this.props;
 
         return (
             <div className="notes__palette">
@@ -160,7 +144,7 @@ const NotesColors = React.createClass({
                     COLORS.map(color =>
                         <div
                             key={color}
-                            className={activeColor === color ? 'active color' : 'color'}
+                            className={selectedColor === color ? 'active color' : 'color'}
                             style={{ background: color }}
                             onClick={this.handleClick.bind(null, color)}
                         />

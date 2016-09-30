@@ -355,7 +355,7 @@ const StudentsFeed = React.createClass({
 
     handleStudentSearch(name) {
         this.setState({
-           students: STUDENTS.filter(student => student.name.toLowerCase().indexOf(name) !== -1)
+           students: STUDENTS.filter(student => student.name.toLowerCase().search(name.toLowerCase()) !== -1)
        });
     },
 
