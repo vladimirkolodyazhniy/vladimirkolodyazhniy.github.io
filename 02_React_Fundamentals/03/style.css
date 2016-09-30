@@ -1,0 +1,109 @@
+*{
+  box-sizing: border-box;
+}
+*:before,
+*:after{
+  box-sizing: border-box;
+}
+body{
+    font-size: 16px;
+    font-family: sans-serif;
+}
+.feed-holder{
+    max-width: 500px;
+    margin: 0 auto 30px;
+}
+.feed-holder h1{
+    text-align: center;
+    color: #205CF0;
+    margin: 0 0 30px;
+    font-family: Galada, sans-serif;
+}
+.students-list{
+    padding-bottom: 15px;
+}
+.student{
+    border: 1px solid #ccc;
+    border-top-width: 0;
+    padding: 20px;
+    overflow: hidden;
+}
+.students-list .student:first-child{
+    border-top-width: 1px;
+}
+.student .avatar-holder{
+    float: left;
+    width: 130px;
+    margin: 0 20px 0 0;
+}
+.student .avatar-holder img{
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+.student .content-holder{
+    overflow: hidden;
+}
+.student .student-name{
+    display: block;
+    font-size: 24px;
+    line-height: 1.2;
+    margin: 0 0 15px;
+}
+.student .student-location{
+    display: block;
+    margin: 0 0 15px;
+    font-size: 18px;
+    line-height: 1.2;
+}
+.student .student-location .fa{
+    font-size: 30px;
+    line-height: 1;
+    color: #70BC5C;
+    padding: 0 5px 0 0;
+}
+.student .social-networks{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-size: 40px;
+    line-height: 1;
+}
+.student .social-networks a{
+    color: #BEBEBE;
+    transition: color .3s;
+}
+.student .social-networks a:hover{
+    color: #70BC5C;
+}
+.student .social-networks li{
+    float: left;
+    margin: 0 15px 0 0;
+}
+.input-group{
+    padding: 0 0 20px;
+    position: relative;
+}
+.input-group .icon-search {
+    position: absolute;
+    left: 17px;
+    top: 14px;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 46px;
+    padding: 10px 12px 10px 43px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 23px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+.form-control:focus{
+    outline: none;
+}
