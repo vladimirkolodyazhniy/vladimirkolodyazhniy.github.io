@@ -1,4 +1,4 @@
-const DEFAULT_COLOR = 'yellow';
+const COLORS = ['#FD8A81', '#FED085', '#FFFE94', '#CFD8DC', '#84D8FD', '#AAFEEB', '#CDFD95'];
 
 const Note = React.createClass({
     handleDelete() {
@@ -24,7 +24,8 @@ const Note = React.createClass({
 const NoteEditor = React.createClass({
     getInitialState() {
         return {
-            text: ''
+            text: '',
+            color: COLORS[0]
         };
     },
 
@@ -34,10 +35,14 @@ const NoteEditor = React.createClass({
         });
     },
 
+    handleColorChange(color){
+        this.setState({ color });
+    },
+
     handleNoteAdd() {
         const newNote = {
             text: this.state.text,
-            color: DEFAULT_COLOR,
+            color: this.state.color,
             id: Date.now()
         };
 
@@ -48,22 +53,35 @@ const NoteEditor = React.createClass({
 
     resetState() {
         this.setState({
-            text: ''
+            text: '',
+            color: COLORS[0]
         });
     },
 
     render() {
+        const {
+            text,
+            color
+        } = this.state;
+
         return (
             <div className="editor">
                 <textarea
                     rows={5}
                     placeholder="Enter your note here..."
                     className="editor__textarea"
-                    value={this.state.text}
+                    value={text}
                     onChange={this.handleTextChange}
                 />
 
-                <button className="editor__button" onClick={this.handleNoteAdd}>Add</button>
+                <div className="editor__footer">
+                    <NotesColors
+                        onColorChange={this.handleColorChange}
+                        activeColor={color}
+                    />
+
+                    <button className="editor__button" onClick={this.handleNoteAdd}>Add</button>
+                </div>
             </div>
         );
     }
@@ -105,6 +123,47 @@ const NotesGrid = React.createClass({
                         >
                             {note.text}
                         </Note>
+                    )
+                }
+            </div>
+        );
+    }
+});
+
+const NotesColors = React.createClass({
+    getInitialState() {
+        return {
+            activeColor: ''
+        };
+    },
+
+    handleClick(color) {
+        this.setState({
+            activeColor: color
+        });
+
+        this.props.onColorChange(color);
+    },
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            activeColor: nextProps.activeColor
+        });
+    },
+
+    render() {
+        const { activeColor } = this.state;
+
+        return (
+            <div className="notes__palette">
+                {
+                    COLORS.map(color =>
+                        <div
+                            key={color}
+                            className={activeColor === color ? 'active color' : 'color'}
+                            style={{ background: color }}
+                            onClick={this.handleClick.bind(null, color)}
+                        />
                     )
                 }
             </div>
