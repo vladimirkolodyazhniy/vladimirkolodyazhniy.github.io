@@ -1,0 +1,58 @@
+body{
+    margin: 0;
+}
+
+.flex-holder{
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.flip-container{
+	perspective: 10000px;
+    margin: auto;
+}
+
+.flip-container.flipped .flipper{
+	transform: rotateY(180deg);
+}
+
+.flip-container,
+.front,
+.back{
+	width: 480px;
+	height: 480px;
+}
+
+.flipper{
+	transition: 0.6s;
+	transform-style: preserve-3d;
+	position: relative;
+    flex: 1;
+}
+.flipper img{
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+.front,
+.back{
+	backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+    display: flex;
+}
+
+.front{
+	z-index: 2;
+	transform: rotateY(0deg);
+    background: #000;
+}
+
+.back{
+	transform: rotateY(180deg);
+    background: #222222;
+}
