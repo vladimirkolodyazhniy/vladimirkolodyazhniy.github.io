@@ -32023,7 +32023,7 @@ var styles = {
 };
 
 var BackdropContainer = function BackdropContainer(props) {
-    var backdropUrl = props.backdropPath ? 'https://image.tmdb.org/t/p/w650_and_h365_bestv2' + props.backdropPath : '/img/no-backdrop.jpeg';
+    var backdropUrl = props.backdropPath ? 'https://image.tmdb.org/t/p/w650_and_h365_bestv2' + props.backdropPath : 'img/no-backdrop.jpeg';
 
     var backdrop = {
         background: 'url("' + backdropUrl + '") center center / cover'
@@ -32117,7 +32117,7 @@ var styles = {
 };
 
 var MovieCard = function MovieCard(props) {
-    var posterUrl = props.posterPath ? 'https://image.tmdb.org/t/p/w500' + props.posterPath : '/img/no-poster.jpg';
+    var posterUrl = props.posterPath ? 'https://image.tmdb.org/t/p/w500' + props.posterPath : 'img/no-poster.jpg';
 
     return _react2.default.createElement(
         _Paper2.default,
