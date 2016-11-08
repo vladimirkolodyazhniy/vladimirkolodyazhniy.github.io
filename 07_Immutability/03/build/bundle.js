@@ -25144,7 +25144,7 @@ exports = module.exports = __webpack_require__(22)();
 
 
 // module
-exports.push([module.i, "*{box-sizing:border-box;font-family:Roboto,sans-serif;font-weight:300}body{background:url(/images/bg.jpg)}#root,.link{text-align:center}.link{padding:5px 15px;font-size:40px;line-height:1.2;background-color:hsla(0,0%,100%,.6);display:block;width:100%;margin:10px 0}.link a{color:#000;text-decoration:none}.link a:hover{color:#555}.game-holder{display:inline-block}", ""]);
+exports.push([module.i, "*{box-sizing:border-box;font-family:Roboto,sans-serif;font-weight:300}body{background:url(images/bg.jpg)}#root,.link{text-align:center}.link{padding:5px 15px;font-size:40px;line-height:1.2;background-color:hsla(0,0%,100%,.6);display:block;width:100%;margin:10px 0}.link a{color:#000;text-decoration:none}.link a:hover{color:#555}.game-holder{display:inline-block}", ""]);
 
 // exports
 
