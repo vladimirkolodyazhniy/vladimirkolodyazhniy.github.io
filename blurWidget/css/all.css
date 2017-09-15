@@ -1,0 +1,27 @@
+body{ background-color: ivory; }
+#main-canvas{ cursor:crosshair;}
+.btn-holder,
+.canvas-holder {
+    margin-bottom: 15px;
+    text-align: center;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.btn {
+    display: inline-block;
+    vertical-align: top;
+    padding: 5px 20px;
+    text-align: center;
+    border: 1px solid #6767f3;
+    color: #fff;
+    text-transform: uppercase;
+    font: 16px/1.2 Arial, Helvetica, sans-serif;
+    background-color: #6767f3;
+    text-decoration: none;
+}
+.btn:hover {
+    background-color: #fff;
+    color: #6767f3;
+}
