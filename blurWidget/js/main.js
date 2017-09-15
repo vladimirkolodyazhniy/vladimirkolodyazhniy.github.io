@@ -1,5 +1,7 @@
 $(function() {
-    $('#main-canvas').clipImage();
+    $('#main-canvas').clipImage({
+        radius: 100,
+    });
 });
 
 (function($) {
@@ -10,7 +12,7 @@ $(function() {
                 canvasWidth: 600, // canvas width
                 canvasHeight: 400, // canvas height
                 imgUrl: 'https://i.imgur.com/eVti7ig.jpg', // should have Access-Control-Allow-Origin:* to be downloaded
-                filterStrength: 5, // blur filter strength
+                filterStrength: 10, // blur filter strength
                 radius: 80, // clipmask radius
             },
             options
@@ -35,12 +37,23 @@ $(function() {
                         self.img.height
                     );
 
-                    tempCanvas.ctx.filter =
-                        'blur(' + self.filterStrength + 'px)';
                     tempCanvas.ctx.drawImage(self.img, 0, 0);
 
+                    var imageData = tempCanvas.ctx.getImageData(
+                        0,
+                        0,
+                        self.img.width,
+                        self.img.height
+                    );
+
+                    self.simpleBlur({
+                        ctx: tempCanvas.ctx,
+                        imageData: imageData,
+                        filterStrength: self.filterStrength,
+                    });
+
                     self.bluredImg = self.loadImage(
-                        tempCanvas.canvas.toDataURL('image/png'),
+                        tempCanvas.canvas.toDataURL(),
                         self.atachEvents.bind(self)
                     );
                 });
@@ -100,12 +113,14 @@ $(function() {
             self.btn.on('click', function(e) {
                 e.preventDefault();
 
-                self.clipImage(
+                var clippedImage = self.clipImage(
                     self.img,
                     self.clippingMaskX,
                     self.clippingMaskY,
                     self.radius
                 );
+
+                self.downloadFile(clippedImage);
             });
 
             self.draw();
@@ -169,7 +184,7 @@ $(function() {
                 imgSize
             );
 
-            this.downloadFile(tempCanvas.canvas.toDataURL());
+            return tempCanvas.canvas.toDataURL();
         },
 
         createTempCanvas: function(width, height) {
@@ -230,17 +245,77 @@ $(function() {
         },
 
         downloadFile: function(sUrl) {
-            var link = $('<a />'),
-                fileName = this.imgUrl.replace(/^.*[\\\/]/, '').slice(0, -4);
+            var e, ieTab,
+                link = $('<a />'),
+                fileName = this.imgUrl.replace(/^.*[\\\/]/, '').slice(0, -4),
+                ua = window.navigator.userAgent,
+                msie = ua.indexOf('MSIE'),
+                ieHTML ="<img src='" + sUrl + "'/>";
 
-            link.attr({
-                href: sUrl,
-                target: '_blank',
-                download: 'cropped-' + fileName + '.png',
-            });
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                ieTab = window.open();
+                ieTab.document.write(ieHTML);
+            } else {
 
-            var e = new MouseEvent('click');
-            link[0].dispatchEvent(e);
+                link.attr({
+                    href: sUrl,
+                    target: '_blank',
+                    download: 'cropped-' + fileName + '.png',
+                });
+
+                e = new MouseEvent('click');
+                link[0].dispatchEvent(e);
+            }
+        },
+
+        simpleBlur: function(options) {
+            var width = options.imageData.width,
+                height = options.imageData.height,
+                canvas1 = this.createTempCanvas(width, height),
+                canvas2 = this.createTempCanvas(width, height),
+                ctx1 = canvas1.ctx,
+                ctx2 = canvas2.ctx,
+                newImageData,
+                nSamples = 15,
+                random,
+                percent,
+                j,
+                i,
+                blur = options.filterStrength * 0.001;
+
+            ctx1.putImageData(options.imageData, 0, 0);
+            ctx2.clearRect(0, 0, width, height);
+
+            for (i = -nSamples; i <= nSamples; i++) {
+                random = (Math.random() - 0.5) / 4;
+                percent = i / nSamples;
+                j = blur * percent * width + random;
+                ctx2.globalAlpha = 1 - Math.abs(percent);
+                ctx2.drawImage(canvas1.canvas, j, random);
+                ctx1.drawImage(canvas2.canvas, 0, 0);
+                ctx2.globalAlpha = 1;
+                ctx2.clearRect(0, 0, canvas2.canvas.width, canvas2.canvas.height);
+            }
+            for (i = -nSamples; i <= nSamples; i++) {
+                random = (Math.random() - 0.5) / 4;
+                percent = i / nSamples;
+                j = blur * percent * height + random;
+                ctx2.globalAlpha = 1 - Math.abs(percent);
+                ctx2.drawImage(canvas1.canvas, random, j);
+                ctx1.drawImage(canvas2.canvas, 0, 0);
+                ctx2.globalAlpha = 1;
+                ctx2.clearRect(0, 0, canvas2.canvas.width, canvas2.canvas.height);
+            }
+            options.ctx.drawImage(canvas1.canvas, 0, 0);
+
+            newImageData = options.ctx.getImageData(
+                0,
+                0,
+                canvas1.canvas.width,
+                canvas1.canvas.height
+            );
+            ctx1.globalAlpha = 1;
+            ctx1.clearRect(0, 0, canvas1.canvas.width, canvas1.canvas.height);
         },
     };
 
