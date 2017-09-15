@@ -97,15 +97,16 @@ $(function() {
                     self.handleMouseUpOut(e);
                 });
 
-            self.btn.on('click', function(e) {
-                e.preventDefault();
+            self.btn.on('click', function() {
 
-                self.clipImage(
+                var clippedImg = self.clipImage(
                     self.img,
                     self.clippingMaskX,
                     self.clippingMaskY,
                     self.radius
                 );
+
+                self.downloadFile(this, clippedImg);
             });
 
             self.draw();
@@ -169,7 +170,7 @@ $(function() {
                 imgSize
             );
 
-            this.downloadFile(tempCanvas.canvas.toDataURL());
+            return tempCanvas.canvas.toDataURL();
         },
 
         createTempCanvas: function(width, height) {
@@ -229,20 +230,14 @@ $(function() {
             }
         },
 
-        downloadFile: function(sUrl) {
-            var link = $('<a />'),
-                fileName = this.imgUrl.substring(
-                    this.imgUrl.lastIndexOf('/') + 1,
-                    this.imgUrl.length
+        downloadFile: function(link, sUrl) {
+            var fileName = this.imgUrl.substring(
+                this.imgUrl.lastIndexOf('/') + 1,
+                this.imgUrl.length
                 );
 
-            link.attr({
-                href: sUrl,
-                target: '_blank',
-                download: 'cropped-' + fileName,
-            });
-
-            link.get(0).click();
+            link.href = sUrl;
+            link.download = 'cropped-' + fileName;
         },
     };
 
